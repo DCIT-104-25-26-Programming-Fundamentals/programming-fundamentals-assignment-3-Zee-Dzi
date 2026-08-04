@@ -82,3 +82,102 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+let tasks = [];
+
+
+function displayMenu() {
+    console.log('\n' + '='.repeat(30));
+    console.log('     TO-DO LIST MENU');
+    console.log('='.repeat(30));
+    console.log('1. Add task');
+    console.log('2. View tasks');
+    console.log('3. Delete task');
+    console.log('4. Quit');
+    console.log('='.repeat(30));
+}
+
+
+function addTask() {
+    const task = readlineSync.question('Enter task: ');
+    
+    if (task.trim() === '') {
+        console.log('Error: Task description cannot be empty.');
+        return;
+    }
+    
+    tasks.push(task.trim());
+    console.log(`Task added: "${task.trim()}"`);
+}
+
+
+function viewTasks() {
+    if (tasks.length === 0) {
+        console.log('Your task list is empty. Time to add some tasks! 📝');
+        return;
+    }
+    
+    console.log('\nYour Tasks:');
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+
+function deleteTask() {
+    if (tasks.length === 0) {
+        console.log('No tasks to delete. Your list is empty!');
+        return;
+    }
+    
+    viewTasks();
+    
+    const taskNumber = readlineSync.questionInt('\nEnter task number to delete: ');
+    
+    if (isNaN(taskNumber) || taskNumber < 1 || taskNumber > tasks.length) {
+        console.log('Error: Invalid task number. Please enter a number between 1 and ' + tasks.length);
+        return;
+    }
+    
+    const removedTask = tasks.splice(taskNumber - 1, 1)[0];
+    console.log(`Task "${removedTask}" has been removed.`);
+}
+
+
+function quit() {
+    console.log('\nGoodbye! 👋');
+    process.exit(0);
+}
+
+
+function main() {
+    console.log('WELCOME TO YOUR TO-DO LIST');
+    console.log('='.repeat(30));
+    
+    while (true) {
+        displayMenu();
+        
+        const choice = readlineSync.question('Enter your choice (1-4): ');
+        
+        switch (choice) {
+            case '1':
+                addTask();
+                break;
+            case '2':
+                viewTasks();
+                break;
+            case '3':
+                deleteTask();
+                break;
+            case '4':
+                quit();
+                break;
+            default:
+                console.log('Invalid choice. Please enter a number between 1 and 4.');
+                break;
+        }
+    }
+}
+
+main();

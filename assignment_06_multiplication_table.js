@@ -60,3 +60,79 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+
+function printSingleTable(num) {
+    console.log(`\nMultiplication Table for ${num}:`);
+    
+    for (let i = 1; i <= 12; i++) {
+        const product = num * i;
+        console.log(`${num}  x  ${i.toString().padStart(2)}  =  ${product.toString().padStart(3)}`);
+    }
+}
+
+
+function runPartA() {
+    console.log('\n=== PART A: Single Multiplication Table ===');
+    const num = readlineSync.questionInt('Enter a number: ');
+    
+    if (num <= 0) {
+        console.log('Error: Number must be a positive integer.');
+        return;
+    }
+    
+    printSingleTable(num);
+}
+
+
+function printTablesUpToN(n) {
+    if (n <= 0) {
+        console.log('Error: N must be a positive integer.');
+        return;
+    }
+    
+    console.log(`\n=== Multiplication Tables from 1 to ${n} ===\n`);
+    
+    for (let i = 1; i <= n; i++) {
+        printSingleTable(i);
+        
+        if (i < n) {
+            console.log('---------------------------');
+        }
+    }
+}
+
+
+function runPartB() {
+    console.log('\n=== PART B: Tables from 1 to N ===');
+    const n = readlineSync.questionInt('Enter a number N: ');
+    
+    if (n <= 0) {
+        console.log('Error: N must be a positive integer.');
+        return;
+    }
+    
+    printTablesUpToN(n);
+}
+
+
+function main() {
+    console.log('MULTIPLICATION TABLE GENERATOR');
+    console.log('==============================\n');
+    
+    runPartA();
+    
+    console.log('\n' + '='.repeat(50));
+    const runBonus = readlineSync.keyInYN('Would you like to run Part B (Bonus)? ');
+    
+    if (runBonus) {
+        runPartB();
+    } else {
+        console.log('\nPart B skipped.');
+    }
+    
+    console.log('\nProgram completed.');
+}
+
+main();
